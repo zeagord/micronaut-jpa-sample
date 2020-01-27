@@ -18,33 +18,33 @@ import com.bytesville.repository.StockRepository;
 public class StockController {
   protected final StockRepository stockRepository;
 
-  public StockController(StockRepository stockRepository) {
+  public StockController(final StockRepository stockRepository) {
     this.stockRepository = stockRepository;
   }
 
   @Get("/{id}")
-  public Stock show(Long id) {
+  public Stock show(final Long id) {
     return stockRepository
         .findById(id)
         .orElse(null);
   }
 
   @Put("/{id}")
-  public HttpResponse update(Long id, @Body @Valid Stock stock) {
-    Stock updatedStock = stockRepository.update(id, stock);
+  public HttpResponse update(final Long id, @Body @Valid final Stock stock) {
+    final Stock updatedStock = stockRepository.update(id, stock);
 
     return HttpResponse
         .noContent()
         .header(HttpHeaders.LOCATION, location(updatedStock.getId()).getPath());
   }
 
-  @Get(value = "/list{?args*}")
-  public List<Stock> list(@Valid String ...args) {
+  @Get(value = "/list")
+  public List<Stock> list() {
     return stockRepository.findAll();
   }
 
   @Post("/")
-  public HttpResponse<Stock> save(@Body @Valid Stock stock) {
+  public HttpResponse<Stock> save(@Body @Valid final Stock stock) {
     stockRepository.save(stock);
 
     return HttpResponse
@@ -53,16 +53,16 @@ public class StockController {
   }
 
   @Delete("/{id}")
-  public HttpResponse delete(Long id) {
+  public HttpResponse delete(final Long id) {
     stockRepository.deleteById(id);
     return HttpResponse.noContent();
   }
 
-  protected URI location(Long id) {
+  protected URI location(final Long id) {
     return URI.create("/stocks/" + id);
   }
 
-  protected URI location(Stock stock) {
+  protected URI location(final Stock stock) {
     return location(stock.getId());
   }
 }

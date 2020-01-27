@@ -3,6 +3,7 @@ package com.bytesville.domain;
 import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,12 +19,9 @@ import lombok.NoArgsConstructor;
 public class Stock {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   public Long id;
   public String ticker;
   public String Name;
   public BigDecimal lastTradedPrice;
-
-  
-
 }
